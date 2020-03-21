@@ -12,13 +12,15 @@ import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatNativeDateModule } from '@angular/material/core';
 import { ReactiveFormsModule } from '@angular/forms';
 import { AngularMaterialModule } from './angular-material/angular-material.module';
+import { TableExpandableRowsExample } from './components/test-grid/table-expandable-rows-example';
 
 
 @NgModule({
   declarations: [
     AppComponent,
     MenuComponent,
-    GridComponent
+    GridComponent,
+    TableExpandableRowsExample
   ],
   imports: [
     BrowserModule,

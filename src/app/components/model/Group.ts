@@ -1,4 +1,5 @@
 import { User } from './User';
+import { MatTableDataSource } from '@angular/material';
 
 export class Group {
     Name: string;
@@ -6,5 +7,5 @@ export class Group {
     Department: string;
     CreateBy: string;
     CreateDate: string;
-    Users: User[];
+    Users: User[] | MatTableDataSource<User>;
 }

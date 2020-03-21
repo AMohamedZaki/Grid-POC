@@ -1,19 +1,9 @@
 
 export const HeaderDetails = [
-    {
-        header: 'Name',
-        field: 'Name'
-    },
-    {
-        header: 'Department',
-        field: 'Department'
-    },
-    {
-        header: 'CreateBy.',
-        field: 'CreateBy'
-    },
-    {
-        header: 'CreateDate.',
-        field: 'CreateDate'
-    }
+    'Name',
+    'Department',
+    'CreateBy',
+    'CreateDate'
 ];
+
+export const InnerHeader = ['Address', 'Id', 'Name', 'Role', 'NationalId'];
