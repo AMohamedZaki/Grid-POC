@@ -49,10 +49,14 @@ export class GridComponent implements OnInit {
       field: 'dateOfBirth'
     },
   ];
-
   displayedColumns: string[] = [];
   dataSource = new MatTableDataSource(ELEMENT_DATA);
   previousIndex: number;
+  // context menu
+  contextMenuXpos: number;
+  contextMenuYpos: number;
+  showContextMenu = false;
+  selectedElement: PeriodicElement;
 
   @ViewChild(MatSort) sort: MatSort;
 
@@ -85,7 +89,7 @@ export class GridComponent implements OnInit {
     this.dataSource.filter = filterValue.trim().toLowerCase();
   }
 
-  dragStarted(event: CdkDragStart, index: number ) {
+  dragStarted(event: CdkDragStart, index: number) {
     this.previousIndex = index;
   }
 
@@ -94,6 +98,17 @@ export class GridComponent implements OnInit {
       moveItemInArray(this.headerDetails, this.previousIndex, index);
       this.setDisplayedColumns();
     }
+  }
+
+  onrightClick(event, row) {
+    this.contextMenuXpos = event.clientX - 100;
+    this.contextMenuYpos = event.clientY;
+    this.showContextMenu = true;
+    this.selectedElement = row;
+
+  }
+  disableContextMenu() {
+    this.showContextMenu = false;
   }
 }
 
