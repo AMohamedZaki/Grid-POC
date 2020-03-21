@@ -1,7 +1,7 @@
 import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { MatTableDataSource } from '@angular/material/table';
 import { MatSort } from '@angular/material/sort';
-import { moveItemInArray, CdkDragStart, CdkDragDrop } from '@angular/cdk/drag-drop';
+import { moveItemInArray, CdkDragStart, CdkDragDrop, CdkDropList } from '@angular/cdk/drag-drop';
 
 const ELEMENT_DATA: PeriodicElement[] = [
   { position: 1, name: 'Hydrogen', weight: 1.0079, symbol: 'H', age: 15, dateOfBirth: new Date() },
@@ -72,6 +72,29 @@ export class GridComponent implements OnInit {
       this.displayedColumns[index] = colunm.field;
     });
   }
+
+  rearrange() {
+    const a = this.displayedColumns[1];
+    const b = this.displayedColumns[2];
+    this.displayedColumns[1] = b;
+    this.displayedColumns[2] = a;
+
+  }
+  applyFilter(event: Event) {
+    const filterValue = (event.target as HTMLInputElement).value;
+    this.dataSource.filter = filterValue.trim().toLowerCase();
+  }
+
+  dragStarted(event: CdkDragStart, index: number ) {
+    this.previousIndex = index;
+  }
+
+  dropListDropped(event: CdkDropList, index: number) {
+    if (event) {
+      moveItemInArray(this.headerDetails, this.previousIndex, index);
+      this.setDisplayedColumns();
+    }
+  }
 }
 
 export interface PeriodicElement {
@@ -87,3 +110,4 @@ export interface HeaderDetails {
   header: string;
   field: string;
 }
+
