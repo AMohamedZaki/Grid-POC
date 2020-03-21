@@ -14,12 +14,14 @@ import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatNativeDateModule } from '@angular/material/core';
 import { ReactiveFormsModule } from '@angular/forms';
 import { MatFormFieldModule, MatInputModule, MAT_FORM_FIELD_DEFAULT_OPTIONS } from '@angular/material';
+import { MasterGridComponent } from './components/master-grid/master-grid.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     MenuComponent,
-    GridComponent
+    GridComponent,
+    MasterGridComponent
   ],
   imports: [
     BrowserModule,
