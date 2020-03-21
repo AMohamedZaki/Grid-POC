@@ -37,8 +37,7 @@ import { MasterGridComponent } from './components/master-grid/master-grid.compon
     MatFormFieldModule,
     MatInputModule
   ],
-  providers: [
-    { provide: MAT_FORM_FIELD_DEFAULT_OPTIONS, useValue: { appearance: 'fill' } }],
+  providers: [],
   entryComponents: [GridComponent],
   bootstrap: [AppComponent]
 })
