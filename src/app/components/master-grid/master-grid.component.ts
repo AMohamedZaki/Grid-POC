@@ -68,12 +68,6 @@ export interface Address {
   city: string;
 }
 
-export interface UserDataSource {
-  name: string;
-  email: string;
-  phone: string;
-  addresses?: MatTableDataSource<Address>;
-}
 
 const USERS: User[] = [
   {

@@ -1,10 +1,24 @@
-import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
-import { MatTableDataSource } from '@angular/material/table';
+import { Component, OnInit, ViewChild, ViewChildren, QueryList, ChangeDetectorRef } from '@angular/core';
+import { MatTableDataSource, MatTable } from '@angular/material/table';
 import { MatSort } from '@angular/material/sort';
-import { moveItemInArray, CdkDragStart, CdkDragDrop, CdkDropList } from '@angular/cdk/drag-drop';
+import { moveItemInArray, CdkDragStart, CdkDropList } from '@angular/cdk/drag-drop';
+import { trigger, state, style, transition, animate } from '@angular/animations';
 
 const ELEMENT_DATA: PeriodicElement[] = [
-  { position: 1, name: 'Hydrogen', weight: 1.0079, symbol: 'H', age: 15, dateOfBirth: new Date() },
+  {
+    position: 1, name: 'Hydrogen', weight: 1.0079, symbol: 'H', age: 15, dateOfBirth: new Date(), addresses: [
+      {
+        street: 'Street 1',
+        zipCode: '78542',
+        city: 'Kansas'
+      },
+      {
+        street: 'Street 2',
+        zipCode: '78554',
+        city: 'Texas'
+      }
+    ]
+  },
   { position: 2, name: 'Helium', weight: 4.0026, symbol: 'He', age: 15, dateOfBirth: new Date() },
   { position: 3, name: 'Lithium', weight: 6.941, symbol: 'Li', age: 15, dateOfBirth: new Date() },
   { position: 4, name: 'Beryllium', weight: 9.0122, symbol: 'Be', age: 15, dateOfBirth: new Date() },
@@ -13,13 +27,33 @@ const ELEMENT_DATA: PeriodicElement[] = [
   { position: 7, name: 'Nitrogen', weight: 14.0067, symbol: 'N', age: 15, dateOfBirth: new Date() },
   { position: 8, name: 'Oxygen', weight: 15.9994, symbol: 'O', age: 15, dateOfBirth: new Date() },
   { position: 9, name: 'Fluorine', weight: 18.9984, symbol: 'F', age: 15, dateOfBirth: new Date() },
-  { position: 10, name: 'Neon', weight: 20.1797, symbol: 'Ne', age: 15, dateOfBirth: new Date() },
+  {
+    position: 10, name: 'Neon', weight: 20.1797, symbol: 'Ne', age: 15, dateOfBirth: new Date(), addresses: [
+      {
+        street: 'Street 1',
+        zipCode: '78542',
+        city: 'Kansas'
+      },
+      {
+        street: 'Street 2',
+        zipCode: '78554',
+        city: 'Texas'
+      }
+    ]
+  },
 ];
 
 @Component({
   selector: 'app-grid',
   templateUrl: './grid.component.html',
-  styleUrls: ['./grid.component.css']
+  styleUrls: ['./grid.component.css'],
+  animations: [
+    trigger('detailExpand', [
+      state('collapsed', style({ height: '0px', minHeight: '0' })),
+      state('expanded', style({ height: '*' })),
+      transition('expanded <=> collapsed', animate('225ms cubic-bezier(0.4, 0.0, 0.2, 1)')),
+    ]),
+  ],
 })
 export class GridComponent implements OnInit {
 
@@ -49,7 +83,9 @@ export class GridComponent implements OnInit {
       field: 'dateOfBirth'
     },
   ];
+  innerDisplayedColumns = ['street', 'zipCode', 'city'];
   displayedColumns: string[] = [];
+  gridData = [];
   dataSource = new MatTableDataSource(ELEMENT_DATA);
   previousIndex: number;
   // context menu
@@ -57,15 +93,30 @@ export class GridComponent implements OnInit {
   contextMenuYpos: number;
   showContextMenu = false;
   selectedElement: PeriodicElement;
+  expandedElement: PeriodicElement | null;
 
   @ViewChild(MatSort) sort: MatSort;
+  @ViewChildren('innerSort') innerSort: QueryList<MatSort>;
+  @ViewChildren('innerTables') innerTables: QueryList<MatTable<Address>>;
 
-  constructor(private elref: ElementRef) {
-    console.log(elref);
+  constructor(private cd: ChangeDetectorRef) {
   }
 
   ngOnInit() {
+    this.setData();
     this.setDisplayedColumns();
+    this.dataSource.sort = this.sort;
+  }
+
+  setData() {
+    ELEMENT_DATA.forEach(user => {
+      if (user.addresses && Array.isArray(user.addresses) && user.addresses.length) {
+        this.gridData = [...this.gridData, { ...user, addresses: new MatTableDataSource(user.addresses) }];
+      } else {
+        this.gridData = [...this.gridData, user];
+      }
+    });
+    this.dataSource = new MatTableDataSource(this.gridData);
     this.dataSource.sort = this.sort;
   }
 
@@ -110,6 +161,13 @@ export class GridComponent implements OnInit {
   disableContextMenu() {
     this.showContextMenu = false;
   }
+
+  toggleRow(element: PeriodicElement) {
+    element.addresses && (element.addresses as MatTableDataSource<Address>).data.length ?
+      (this.expandedElement = this.expandedElement === element ? null : element) : null;
+    this.cd.detectChanges();
+    this.innerTables.forEach((table, index) => (table.dataSource as MatTableDataSource<Address>).sort = this.innerSort.toArray()[index]);
+  }
 }
 
 export interface PeriodicElement {
@@ -119,6 +177,7 @@ export interface PeriodicElement {
   symbol: string;
   age: number;
   dateOfBirth: Date;
+  addresses?: Address[] | MatTableDataSource<Address>;
 }
 
 export interface HeaderDetails {
@@ -126,3 +185,9 @@ export interface HeaderDetails {
   field: string;
 }
 
+
+export interface Address {
+  street: string;
+  zipCode: string;
+  city: string;
+}
