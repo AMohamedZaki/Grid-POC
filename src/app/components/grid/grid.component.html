@@ -19,8 +19,8 @@
           </mat-form-field>
           <div oncontextmenu="return false;" class="table-responsive">
 
-            <table class="mat-table" multiTemplateDataRows cdkDropListGroup mat-table [dataSource]="dataSource" matSort
-              class="mat-elevation-z8">
+            <table class="mat-table" multiTemplateDataRows cdkDropListGroup mat-table [dataSource]="dataSource"
+              #outerSort="matSort" matSort class="mat-elevation-z8">
 
               <ng-container *ngFor="let item of headerDetails; let i = index" [matColumnDef]="item.field">
 
@@ -30,8 +30,8 @@
                   {{ item.header }}
                 </th>
 
-                                <td mat-cell *matCellDef="let element"> {{ element[item.field] }} </td>
-                            </ng-container>
+                <td mat-cell *matCellDef="let element"> {{ element[item.field] }} </td>
+              </ng-container>
 
               <!-- Expanded Content Column - The detail row is made up of this one column that spans across all columns -->
               <ng-container matColumnDef="expandedDetail">
@@ -66,42 +66,43 @@
 
             </table>
 
-                    </div>
-                </div>
-            </div>
+          </div>
+        </div>
+      </div>
 
-    </div>
+  </div>
 </div>
 
-<div style="position: absolute;" *ngIf="showContextMenu" class="contextmenu" [ngStyle]="{'left.px': contextMenuXpos, 'top.px': contextMenuYpos}">
-    <ul class="list-group">
-        <li class="list-group-item">
-            <span>show {{selectedElement.name}} details in popup </span>
-        </li>
-        <li class="list-group-item">
-            <span>show {{selectedElement.name}} details in new tab</span>
-        </li>
-    </ul>
+<div style="position: absolute;" *ngIf="showContextMenu" class="contextmenu"
+  [ngStyle]="{'left.px': contextMenuXpos, 'top.px': contextMenuYpos}">
+  <ul class="list-group">
+    <li class="list-group-item">
+      <span>show {{selectedElement.name}} details in popup </span>
+    </li>
+    <li class="list-group-item">
+      <span>show {{selectedElement.name}} details in new tab</span>
+    </li>
+  </ul>
 </div>
 
 <div>
-    <h3>menu example</h3>
-    <button mat-button [matMenuTriggerFor]="menu">
-      <mat-icon>mic</mat-icon>
-      Menu
-    </button>
-    <mat-menu #menu="matMenu">
-        <button mat-menu-item>
+  <h3>menu example</h3>
+  <button mat-button [matMenuTriggerFor]="menu">
+    <mat-icon>mic</mat-icon>
+    Menu
+  </button>
+  <mat-menu #menu="matMenu">
+    <button mat-menu-item>
       <mat-icon>dialpad</mat-icon>
       <span>Redial</span>
     </button>
-        <button mat-menu-item>
+    <button mat-menu-item>
       <mat-icon>voicemail</mat-icon>
       <span>Check voicemail</span>
     </button>
-        <button mat-menu-item>
+    <button mat-menu-item>
       <mat-icon>notifications_off</mat-icon>
       <span>Disable alerts</span>
     </button>
-    </mat-menu>
+  </mat-menu>
 </div>

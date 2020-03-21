@@ -95,7 +95,7 @@ export class GridComponent implements OnInit {
   selectedElement: PeriodicElement;
   expandedElement: PeriodicElement | null;
 
-  @ViewChild(MatSort) sort: MatSort;
+  @ViewChild('outerSort') sort: MatSort;
   @ViewChildren('innerSort') innerSort: QueryList<MatSort>;
   @ViewChildren('innerTables') innerTables: QueryList<MatTable<Address>>;
 
@@ -103,8 +103,8 @@ export class GridComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.setData();
     this.setDisplayedColumns();
+    this.setData();
     this.dataSource.sort = this.sort;
   }
 
