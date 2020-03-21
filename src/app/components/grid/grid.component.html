@@ -1,62 +1,80 @@
 <!-- Begin Page Content -->
-<div class="contianer" (click)="disableContextMenu()" >
-  <div class="container-fluid">
-    <br>
-    <!-- Page Heading -->
-    <h1 class="h3 mb-2 text-gray-800">Tables</h1>
-    <p class="mb-4">Add Demo Test For Grid
+<div class="contianer" (click)="disableContextMenu()">
+    <div class="container-fluid">
+        <br>
+        <!-- Page Heading -->
+        <h1 class="h3 mb-2 text-gray-800">Tables</h1>
+        <p class="mb-4">Add Demo Test For Grid
 
 
-      <!-- DataTales Example -->
-      <div  class="card shadow mb-4">
-        <div class="card-header py-3">
-          <h6 class="m-0 font-weight-bold text-primary">DataTables Example</h6>
-        </div>
-        <div class="card-body">
-          <mat-form-field>
-            <mat-label>Filter</mat-label>
-            <input matInput (keyup)="applyFilter($event)" placeholder="filter">
-          </mat-form-field>
-          <div  oncontextmenu="return false;" class="table-responsive">
+            <!-- DataTales Example -->
+            <div class="card shadow mb-4">
+                <div class="card-header py-3">
+                    <h6 class="m-0 font-weight-bold text-primary">DataTables Example</h6>
+                </div>
+                <div class="card-body">
+                    <mat-form-field>
+                        <mat-label>Filter</mat-label>
+                        <input matInput (keyup)="applyFilter($event)" placeholder="filter">
+                    </mat-form-field>
+                    <div oncontextmenu="return false;" class="table-responsive">
 
-            <table class="mat-table" cdkDropListGroup mat-table [dataSource]="dataSource" matSort class="mat-elevation-z8">
+                        <table class="mat-table" cdkDropListGroup mat-table [dataSource]="dataSource" matSort class="mat-elevation-z8">
 
-              <ng-container  *ngFor="let item of headerDetails; let i = index"  [matColumnDef]="item.field">
+                            <ng-container *ngFor="let item of headerDetails; let i = index" [matColumnDef]="item.field">
 
-                <th
-                cdkDropList
-                (cdkDropListDropped)="dropListDropped($event, i)"
-                cdkDrag
-                (cdkDragStarted)="dragStarted($event, i)"
-                [cdkDragData]="{name: item.field, columIndex: i}"  mat-header-cell *matHeaderCellDef mat-sort-header>
-                  {{ item.header }}
-                </th>
+                                <th cdkDropList (cdkDropListDropped)="dropListDropped($event, i)" cdkDrag (cdkDragStarted)="dragStarted($event, i)" [cdkDragData]="{name: item.field, columIndex: i}" mat-header-cell *matHeaderCellDef mat-sort-header>
+                                    {{ item.header }}
+                                </th>
 
-                <td mat-cell *matCellDef="let element"> {{ element[item.field] }} </td>
-              </ng-container>
+                                <td mat-cell *matCellDef="let element"> {{ element[item.field] }} </td>
+                            </ng-container>
 
-              <tr  mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-              <tr (contextmenu)="onrightClick($event,row)"  mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
-            </table>
-            <!-- <button (click)="rearrange()" type="button" name="" id="" class="btn btn-primary btn-lg btn-block">
+                            <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                            <tr (contextmenu)="onrightClick($event,row)" mat-row *matRowDef="let row; columns: displayedColumns;">
+                            </tr>
+                        </table>
+                        <!-- <button (click)="rearrange()" type="button" name="" id="" class="btn btn-primary btn-lg btn-block">
               rearrange
             </button> -->
 
 
-          </div>
-        </div>
-      </div>
+                    </div>
+                </div>
+            </div>
 
-  </div>
+    </div>
 </div>
 
 <div style="position: absolute;" *ngIf="showContextMenu" class="contextmenu" [ngStyle]="{'left.px': contextMenuXpos, 'top.px': contextMenuYpos}">
-  <ul class="list-group">
-    <li class="list-group-item">
-      <span>show {{selectedElement.name}} details in popup </span>
-    </li>
-    <li class="list-group-item">
-      <span>show {{selectedElement.name}} details in new tab</span>
-    </li>
-  </ul>
+    <ul class="list-group">
+        <li class="list-group-item">
+            <span>show {{selectedElement.name}} details in popup </span>
+        </li>
+        <li class="list-group-item">
+            <span>show {{selectedElement.name}} details in new tab</span>
+        </li>
+    </ul>
+</div>
+
+<div>
+    <h3>menu example</h3>
+    <button mat-button [matMenuTriggerFor]="menu">
+      <mat-icon>mic</mat-icon>
+      Menu
+    </button>
+    <mat-menu #menu="matMenu">
+        <button mat-menu-item>
+      <mat-icon>dialpad</mat-icon>
+      <span>Redial</span>
+    </button>
+        <button mat-menu-item>
+      <mat-icon>voicemail</mat-icon>
+      <span>Check voicemail</span>
+    </button>
+        <button mat-menu-item>
+      <mat-icon>notifications_off</mat-icon>
+      <span>Disable alerts</span>
+    </button>
+    </mat-menu>
 </div>

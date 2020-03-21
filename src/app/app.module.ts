@@ -13,7 +13,7 @@ import { CdkTableModule } from '@angular/cdk/table';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatNativeDateModule } from '@angular/material/core';
 import { ReactiveFormsModule } from '@angular/forms';
-import { MatFormFieldModule, MatInputModule, MAT_FORM_FIELD_DEFAULT_OPTIONS } from '@angular/material';
+import { MatButtonModule, MatMenuModule, MatIconModule, MatFormFieldModule, MatInputModule, MAT_FORM_FIELD_DEFAULT_OPTIONS } from '@angular/material';
 import { MasterGridComponent } from './components/master-grid/master-grid.component';
 
 @NgModule({
@@ -35,7 +35,10 @@ import { MasterGridComponent } from './components/master-grid/master-grid.compon
     MatPaginatorModule,
     ReactiveFormsModule,
     MatFormFieldModule,
-    MatInputModule
+    MatInputModule,
+    MatMenuModule,
+    MatIconModule,
+    MatButtonModule
   ],
   providers: [],
   entryComponents: [GridComponent],
